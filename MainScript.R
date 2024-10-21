@@ -118,3 +118,13 @@ modGenes = (moduleColors == module)
 # Get gene names and their connectivity in the module
 hubGenes = names(which.max(moduleMembership[modGenes, "MEblue"]))
 cat("Hub gene for module", module, ":", hubGenes, "\n")
+
+hubGenes <- c()
+for (group in colnames(moduleMembership)) {
+  hubGene = names(which.max(moduleMembership[modGenes, group]))
+  cat("Hub gene for module", group, ":", hubGene, "\n")
+  hubGenes <- c(hubGenes, hubGene)
+}
+hubGenes <- unique(hubGenes)
+
+bm_hugo_gene_names_entrez <- getBM(mart = mart, values = hubGenes, attributes=c("entrezgene_id", "hgnc_symbol"), filter="entrezgene_id")
